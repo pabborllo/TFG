@@ -1,0 +1,141 @@
+<resources>
+    <string name="app_name">Gestión de rutas</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="title_activity_maps" translatable="false">Map</string>
+    <string name="GOOGLE_MAPS_API_KEY" translatable="false">AIzaSyDjO4gs7OAzC4p6vAXFUBI_cEE99nOaxh8</string>
+    <string name="facebook_app_id" translatable="false">701212164144027</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb701212164144027</string>
+
+    <string name="idioma">es</string>
+
+    <string name="mensaje">(Por defecto, la ruta será a pie)</string>
+    <string name="loginOK">Sesión iniciada</string>
+
+    <!--Botones-->
+    <string name="aceptar">Aceptar</string>
+    <string name="agregar">Agregar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="buscar">Buscar</string>
+    <string name="buscar...">Buscar...</string>
+    <string name="borrar">Borrar</string>
+    <string name="crear_ruta">Crear ruta</string>
+    <string name="guardar">Guardar</string>
+
+    <!--Lugares-->
+    <string name="mapa">Mapa</string>
+    <string name="buscador">Buscador</string>
+
+    <!--Mi Perfil-->
+    <string name="mis_rutas_btn">Mis Rutas</string>
+    <string name="mis_rutas_hdr">Mis Rutas</string>
+    <string name="alert_que_hacer">Elija una opción</string>
+    <string name="alert_cargar">Cargar ruta</string>
+    <string name="alert_editar">Editar ruta</string>
+    <string name="alert_borrar">Borrar ruta</string>
+    <string name="alert_tipo_mapa">Tipo de mapa</string>
+    <string name="borrar_datos">¿Borrar datos?</string>
+    <string name="alert_seguro">¿Borrar</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
+    <string name="borrar_cuenta">Borrar cuenta</string>
+    <string name="entendido_borrar">Lo he entendido y deseo borrar mis datos</string>
+    <string name="borrar_todo">Se borrarán sus datos personales, así como sus rutas guardadas</string>
+    <string name="no_puede_deshacer">Esta acción no se puede deshacer</string>
+
+    <!--Display Ruta-->
+    <string name="tramo">º Tramo</string>
+    <string name="inicio">Inicio</string>
+    <string name="fin">Final</string>
+    <string name="parada">º Parada</string>
+    <string name="mi_ubicacion">Mi ubicación</string>
+    <string name="guardar_fav">Guardar en favoritos</string>
+    <string name="nombre_su_ruta">Nombre de su ruta</string>
+    <string name="ruta_a_fav">Añadir ruta a favoritos</string>
+
+    <!--CreateRouteMap // CreateRouteAutocomplete-->
+    <string name="que_ver">Qué ver</string>
+    <string name="bares">Bares</string>
+    <string name="clubes">Bar de copas</string>
+    <string name="bibliotecas">Bibliotecas</string>
+    <string name="cafeterias">Cafeterías</string>
+    <string name="casinos">Casinos</string>
+    <string name="centro_comercial">Centro comercial</string>
+    <string name="cines">Cines</string>
+    <string name="galerias">Galerías de arte</string>
+    <string name="hospital">Hospitales</string>
+    <string name="hoteles">Hoteles</string>
+    <string name="librerias">Librerías</string>
+    <string name="licorerias">Licorerías</string>
+    <string name="metro">Metro</string>
+    <string name="museos">Museos</string>
+    <string name="parques">Parques</string>
+    <string name="pastelerias">Pastelerías</string>
+    <string name="policia">Policía</string>
+    <string name="restaurantes">Restaurantes</string>
+    <string name="supermercados">Supermercados</string>
+    <string name="taxis">Taxis</string>
+    <string name="ropa">Tiendas de ropa</string>
+    <string name="universidades">Universidades</string>
+    <string name="zoos">Zoológicos</string>
+
+    <string name="radio">radio</string>
+
+    <string name="alert_configura">Configura tu ruta</string>
+    <string name="alert_comenzar">Comenzar ruta desde:</string>
+    <string name="alert_pos_act">Posición actual</string>
+    <string name="alert_pri_lug">Primer lugar de la lista</string>
+    <string name="alert_opt_ruta">Optimizar ruta</string>
+    <string name="alert_si">Sí</string>
+    <string name="alert_no">No</string>
+    <string name="eliminar_de_ruta">¿Eliminar de la ruta?</string>
+    <string name="eliminar">Eliminar</string>
+
+    <!--Navigation Bar-->
+    <string name="Inicio">Inicio</string>
+    <string name="Lugares">Lugares</string>
+    <string name="Mi_Perfil">Mi Perfil</string>
+
+    <!--Toast-->
+    <string name="error_login">Error al iniciar sesión</string>
+    <string name="error_ubicacion">Ubicación necesaria</string>
+    <string name="error_obt_ubicacion">Error al obtener ubicación</string>
+    <string name="error_enc_lugar">Error al encontrar lugar</string>
+    <string name="error_lugar_ya_agregado">Ya has agregado este lugar</string>
+    <string name="error_sin_numero_tlf">No hay número registrado</string>
+    <string name="error_sin_sitio_web">No hay sitio web</string>
+    <string name="error_10_lugares">Máximo 10 lugares por ruta</string>
+    <string name="error_2_lugares">Ruta mínima 2 lugares</string>
+    <string name="error_configure">Configure su ruta</string>
+    <string name="error_parametros_req">Tipo de lugar y distancia requeridos</string>
+    <string name="error_radio_min">Radio mínimo 1km</string>
+    <string name="error_radio_max">Radio máximo 5km</string>
+    <string name="lugar_agregado">Lugar agregado</string>
+    <string name="lugar_eliminado">Lugar eliminado</string>
+    <string name="error_nombre_ruta">Debe darle un nombre a su ruta</string>
+    <string name="ruta_guardada">Guardada en favoritos</string>
+    <string name="error_guardar_ruta">Error al guardar la ruta</string>
+    <string name="sesion_cerrada">Sesión cerrada</string>
+    <string name="error_desloguear">Error al desloguear</string>
+    <string name="error_borrar_datos">Error al borrar datos</string>
+    <string name="error_borrar_cuenta">Error al borrar cuenta</string>
+    <string name="datos_borrados">Sus datos han sido borrados</string>
+    <string name="error_marque_casilla_borrar">Marque para confirmar</string>
+    <string name="error_recuperar_datos">Error al recuperar datos</string>
+    <string name="elija_opcion">Elija una opción</string>
+    <string name="ruta_borrada">Ruta borrada</string>
+    <string name="error_borrar_ruta">Error al borrar la ruta</string>
+    <string name="error_no_foto">No proporciona foto</string>
+
+    <!--Layouts-->
+    <string name="nombre">Nombre:</string>
+    <string name="direccion">Dirección:</string>
+    <string name="esta_abierto">¿Está abierto?</string>
+    <string name="sin_horario">Sin información</string>
+    <string name="abierto_ahora">Abierto ahora</string>
+    <string name="cerrado_ahora">Cerrado ahora</string>
+    <string name="llamar">Llamar</string>
+    <string name="sitio_web">Sitio web</string>
+
+
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:title="@string/Inicio"
+        android:icon="@drawable/ic_home"/>
+
+    <item
+        android:id="@+id/buscarRutasFragment"
+        android:title="@string/Lugares"
+        android:icon="@drawable/ic_lugares"/>
+
+    <item
+        android:id="@+id/misRutasFragment"
+        android:title="@string/Mi_Perfil"
+        android:icon="@drawable/ic_perfil"/>
+
+</menu>

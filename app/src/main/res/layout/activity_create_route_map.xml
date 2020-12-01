@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <Spinner
+        android:id="@+id/lugaresDisponibles"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:background="@drawable/borders"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:padding="5dp"
+        android:entries="@array/lugaresDisponibles">
+    </Spinner>
+
+    <EditText
+        android:id="@+id/radioBusqueda"
+        android:layout_width="90dp"
+        android:layout_height="45dp"
+        android:background="@drawable/borders"
+        android:hint="@string/radio"
+        android:inputType="numberDecimal"
+        android:maxLength="3"
+        android:padding="5dp"
+        app:layout_constraintLeft_toRightOf="@id/lugaresDisponibles"
+        android:layout_marginStart="20dp"
+        app:layout_constraintTop_toTopOf="@id/lugaresDisponibles">
+    </EditText>
+
+    <Button
+        android:id="@+id/buscarButton"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:background="@drawable/button_styles"
+        android:text="@string/buscar"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/radioBusqueda">
+
+    </Button>
+
+    <FrameLayout
+        android:id="@+id/mapFrame"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:background="@drawable/borders"
+        android:padding="5dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/buscarButton">
+
+        <fragment
+            android:id="@+id/map"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".CreateRouteMap" />
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listaPlaces"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/mapFrame"
+        app:layout_constraintLeft_toLeftOf="parent">
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <Button
+        android:id="@+id/createRoute"
+        android:layout_width="300dp"
+        android:layout_height="45dp"
+        android:background="@drawable/button_styles"
+        android:text="@string/crear_ruta"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

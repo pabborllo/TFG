@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="lugaresDisponibles">
+        <item>@string/que_ver</item>
+        <item>@string/bares</item>
+        <item>@string/clubes</item>
+        <item>@string/bibliotecas</item>
+        <item>@string/cafeterias</item>
+        <item>@string/casinos</item>
+        <item>@string/centro_comercial</item>
+        <item>@string/cines</item>
+        <item>@string/galerias</item>
+        <item>@string/hospital</item>
+        <item>@string/hoteles</item>
+        <item>@string/librerias</item>
+        <item>@string/licorerias</item>
+        <item>@string/metro</item>
+        <item>@string/museos</item>
+        <item>@string/parques</item>
+        <item>@string/pastelerias</item>
+        <item>@string/policia</item>
+        <item>@string/restaurantes</item>
+        <item>@string/supermercados</item>
+        <item>@string/taxis</item>
+        <item>@string/ropa</item>
+        <item>@string/universidades</item>
+        <item>@string/zoos</item>
+    </string-array>
+</resources>
