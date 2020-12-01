@@ -85,9 +85,9 @@ public class CreateRouteMap extends AppCompatActivity implements
     private RecyclerView vista;
 
     //Filtros de búsqueda
-    final String[] tipos = {"que_ver", "bar", "library", "cafe", "casino", "shopping_mall", "movie_theater", "night_club",
-            "police", "subway_station", "art_gallery", "hospital", "lodging", "book_store", "liquor_store", "museum",
-            "taxi_stand", "park", "bakery", "restaurant", "supermarket", "clothing_store", "university", "zoo"};
+    final String[] tipos = {"que_ver", "bar", "night_club", "library", "cafe", "casino", "shopping_mall", "movie_theater",
+            "art_gallery", "hospital", "lodging", "book_store", "liquor_store", "subway_station", "museum", "park",
+            "bakery", "police", "restaurant", "supermarket", "taxi_stand", "clothing_store", "university", "zoo"};
 
     private Spinner tipoLugar;
     private EditText radioBusqueda;
