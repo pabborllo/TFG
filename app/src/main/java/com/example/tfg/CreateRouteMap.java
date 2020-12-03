@@ -14,7 +14,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -181,7 +180,6 @@ public class CreateRouteMap extends AppCompatActivity implements
         constraintsBUSCAR.setMarginStart(pxMargins/2);
         buscar.setBackground(CreateRouteMap.this.getDrawable(R.drawable.button_styles));
         buscar.setLayoutParams(constraintsBUSCAR);
-
         buscar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -441,7 +439,6 @@ public class CreateRouteMap extends AppCompatActivity implements
                 if(places.size()<10){
                     places.add(new Lugar(id, posicion, title));
                     mostrarDatos(places);
-                    //setListView();
                     Toast.makeText(CreateRouteMap.this, getString(R.string.lugar_agregado), Toast.LENGTH_LONG).show();
                     alertDialog.dismiss();
                 }else{
@@ -477,7 +474,6 @@ public class CreateRouteMap extends AppCompatActivity implements
             public void onClick(View view) {
                 places.remove(posicion);
                 mostrarDatos(places);
-                //setListView();
                 Toast.makeText(CreateRouteMap.this, getString(R.string.lugar_eliminado), Toast.LENGTH_LONG).show();
                 alertDialog.dismiss();
             }
