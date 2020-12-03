@@ -173,11 +173,11 @@ public class DisplayRoute extends AppCompatActivity implements OnMapReadyCallbac
         route.setCurrentPos(currentPos);
         route.setPlaces(places);
         String userId = prefs.getString("userId", "null");
-        DatabaseReference ref = new DatabaseManager().getRoutesRef();
+        DatabaseReference ref = new DatabaseManager().getUsersRef().child(userId);
         String routeId = getIntent().getExtras().getString("id", ref.child(userId).push().getKey());
         route.setId(routeId);
         route.setNombre(nombre);
-        ref.child(userId)
+        ref.child("routes")
                 .child(routeId)
                 .setValue(route)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

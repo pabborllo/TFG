@@ -147,7 +147,6 @@ public class CreateRouteMap extends AppCompatActivity implements
                     CreateRouteMap.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
         } else {
             cargaMapa();
-            getPosicionActual();
         }
         tipoLugar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -276,6 +275,7 @@ public class CreateRouteMap extends AppCompatActivity implements
         myMap.setOnMarkerClickListener(this);
         myMap.setOnCameraMoveStartedListener(this);
         myMap.setOnCameraIdleListener(this);
+        getPosicionActual();
     }
 
     private void getPosicionActual(){
@@ -441,7 +441,7 @@ public class CreateRouteMap extends AppCompatActivity implements
                 if(places.size()<10){
                     places.add(new Lugar(id, posicion, title));
                     mostrarDatos(places);
-                    setListView();
+                    //setListView();
                     Toast.makeText(CreateRouteMap.this, getString(R.string.lugar_agregado), Toast.LENGTH_LONG).show();
                     alertDialog.dismiss();
                 }else{
@@ -477,7 +477,7 @@ public class CreateRouteMap extends AppCompatActivity implements
             public void onClick(View view) {
                 places.remove(posicion);
                 mostrarDatos(places);
-                setListView();
+                //setListView();
                 Toast.makeText(CreateRouteMap.this, getString(R.string.lugar_eliminado), Toast.LENGTH_LONG).show();
                 alertDialog.dismiss();
             }

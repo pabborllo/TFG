@@ -33,6 +33,7 @@ import com.example.tfg.MyRoutes;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -104,33 +105,34 @@ public class MiPerfilFragment extends Fragment {
     }
 
     private void borraDatos(){
-        db.getRoutesRef().child(id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+        /*db.getRoutesRef().child(id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                db.getUsersRef().child(id).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        borraCuenta();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), getString(R.string.error_borrar_datos), Toast.LENGTH_LONG).show();
-                    }
-                });
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getContext(), getString(R.string.error_borrar_cuenta), Toast.LENGTH_LONG).show();
             }
+        });*/
+        db.getUsersRef().child(id).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                borraCuenta();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), getString(R.string.error_borrar_datos), Toast.LENGTH_LONG).show();
+            }
         });
     }
 
     private void borraCuenta(){
-        FirebaseAuth.getInstance().getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+        FirebaseAuth.getInstance().getCurrentUser().delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
+            public void onSuccess(Void aVoid) {
                 Toast.makeText(getContext(), getString(R.string.datos_borrados), Toast.LENGTH_LONG).show();
                 loginPage();
             }

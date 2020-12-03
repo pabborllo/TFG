@@ -36,6 +36,10 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.Arrays;
 
 public class Login extends AppCompatActivity {
@@ -160,16 +164,29 @@ public class Login extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             mUser = mAuth.getCurrentUser();
                             final Usuario userInfo = new Usuario(mUser.getUid(), mUser.getDisplayName(), mUser.getEmail(), mUser.getPhotoUrl().toString());
-                            db.getUsersRef()
-                                    .child(mUser.getUid())
-                                    .setValue(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            db.getUsersRef().child(mUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
-                                public void onSuccess(Void aVoid) {
-                                    loadUser(userInfo, provider);
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if(!dataSnapshot.exists()){
+                                        db.getUsersRef()
+                                                .child(mUser.getUid())
+                                                .setValue(userInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                loadUser(userInfo, provider);
+                                            }
+                                        }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(getApplicationContext(), getString(R.string.error_login), Toast.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }else{
+                                        loadUser(userInfo, provider);
+                                    }
                                 }
-                            }).addOnFailureListener(new OnFailureListener() {
                                 @Override
-                                public void onFailure(@NonNull Exception e) {
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
                                     Toast.makeText(getApplicationContext(), getString(R.string.error_login), Toast.LENGTH_LONG).show();
                                 }
                             });

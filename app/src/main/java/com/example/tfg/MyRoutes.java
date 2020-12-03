@@ -62,7 +62,7 @@ public class MyRoutes extends AppCompatActivity {
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MyRoutes.this);
         id = prefs.getString("userId", "null");
-        ref = new DatabaseManager().getRoutesRef().child(id);
+        ref = new DatabaseManager().getUsersRef().child(id).child("routes");
 
         getMyRoutes();
         myRoutes.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -138,7 +138,6 @@ public class MyRoutes extends AppCompatActivity {
         MyRoutesAdapter myRoutesAdapter = new MyRoutesAdapter(mRoutes, new ItemListener() {
             @Override
             public void itemOnClick(int posicion) {
-                Log.d("id", mRoutes.get(posicion).getId());
                 handleRoute(mRoutes.get(posicion));
             }
         });
