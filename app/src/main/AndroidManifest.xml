@@ -16,8 +16,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MyRoutes" />
-        <activity android:name=".DisplayRoute" />
+        <activity android:name=".MyRoutes"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".DisplayRoute"
+            android:screenOrientation="portrait"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -48,10 +50,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CreateRouteAutocomplete" />
-        <activity android:name=".CreateRouteMap" />
-        <activity android:name=".Home" />
-        <activity android:name=".Login">
+        <activity android:name=".CreateRouteAutocomplete"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CreateRouteMap"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Home"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Login"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

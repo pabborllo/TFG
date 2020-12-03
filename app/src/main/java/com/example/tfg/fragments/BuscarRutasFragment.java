@@ -12,6 +12,9 @@ import android.widget.Button;
 import com.example.tfg.CreateRouteMap;
 import com.example.tfg.CreateRouteAutocomplete;
 import com.example.tfg.R;
+import com.example.tfg.objects.Lugar;
+
+import java.util.ArrayList;
 
 public class BuscarRutasFragment extends Fragment implements View.OnClickListener {
 

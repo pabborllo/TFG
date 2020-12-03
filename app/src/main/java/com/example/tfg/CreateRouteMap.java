@@ -14,10 +14,13 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -94,6 +97,7 @@ public class CreateRouteMap extends AppCompatActivity implements
     private String tipoCadena;
     private Double radioNumero;
     private Button buscar;
+    private FrameLayout mapInicio;
 
     //Tipo de razón de cambio de la cámara
     private int reason;
@@ -126,14 +130,15 @@ public class CreateRouteMap extends AppCompatActivity implements
         //Botón para lanzar Intent y crear ruta
         crearRuta = findViewById(R.id.createRoute);
         crearRuta.setOnClickListener(this);
+        fromFragment = getIntent().getExtras().getBoolean("flag");
 
         //Spinner con tipo de lugar, input de radio de búsqueda y botón
         tipoLugar = findViewById(R.id.lugaresDisponibles);
         radioBusqueda = findViewById(R.id.radioBusqueda);
         buscar = findViewById(R.id.buscarButton);
         buscar.setOnClickListener(this);
-
-        fromFragment = getIntent().getExtras().getBoolean("flag");
+        mapInicio = findViewById(R.id.mapFrame);
+        vista = findViewById(R.id.listaPlaces);
 
         //Comprobar permisos y construir mapa
         if (ContextCompat.checkSelfPermission(
@@ -142,14 +147,81 @@ public class CreateRouteMap extends AppCompatActivity implements
                     CreateRouteMap.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_REQUEST_CODE);
         } else {
             cargaMapa();
+            getPosicionActual();
         }
+        tipoLugar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                setInputsView();
+                tipoLugar.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+    }
+
+    private void setInputsView(){
+        int density = (int) CreateRouteMap.this.getResources().getDisplayMetrics().density;
+        int pxMargins = 10 * density;
+        int widthUsable = CreateRouteMap.this.getResources().getDisplayMetrics().widthPixels - 2*pxMargins;
+        int tamTipo = 40*widthUsable/100;
+        int tamRadio = 30*widthUsable/100;
+        int tamBuscar = 30*widthUsable/100;
+        ConstraintLayout.LayoutParams constraintsTIPO = new ConstraintLayout.LayoutParams(tamTipo, 45*density);
+        constraintsTIPO.topToTop = R.id.parent;
+        constraintsTIPO.leftToLeft = R.id.parent;
+        tipoLugar.setBackground(CreateRouteMap.this.getDrawable(R.drawable.borders));
+        tipoLugar.setLayoutParams(constraintsTIPO);
+        ConstraintLayout.LayoutParams constraintsRADIO = new ConstraintLayout.LayoutParams(tamRadio, 45*density);
+        constraintsRADIO.topToTop = R.id.parent;
+        constraintsRADIO.leftToRight = R.id.lugaresDisponibles;
+        constraintsRADIO.setMarginStart(pxMargins/2);
+        radioBusqueda.setBackground(CreateRouteMap.this.getDrawable(R.drawable.borders));
+        radioBusqueda.setLayoutParams(constraintsRADIO);
+        ConstraintLayout.LayoutParams constraintsBUSCAR = new ConstraintLayout.LayoutParams(tamBuscar, 45*density);
+        constraintsBUSCAR.topToTop = R.id.parent;
+        constraintsBUSCAR.leftToRight = R.id.radioBusqueda;
+        constraintsBUSCAR.setMarginStart(pxMargins/2);
+        buscar.setBackground(CreateRouteMap.this.getDrawable(R.drawable.button_styles));
+        buscar.setLayoutParams(constraintsBUSCAR);
+
+        buscar.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                setMapView();
+                buscar.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+    }
+
+    private void setMapView(){
+        int pxMargins = (int) (10 * CreateRouteMap.this.getResources().getDisplayMetrics().density);
+        int tipoInicio = (int) tipoLugar.getY();
+        int tipoTAM = tipoLugar.getHeight();
+        int crearInicio = (int) crearRuta.getY();
+        int usableScreen = crearInicio - (tipoInicio + tipoTAM);
+        int mapScreen = 60*usableScreen/100;
+        ConstraintLayout.LayoutParams constraintsParamsMAP = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mapScreen);
+        constraintsParamsMAP.topToBottom = R.id.lugaresDisponibles;
+        constraintsParamsMAP.leftToLeft = R.id.parent;
+        constraintsParamsMAP.topMargin = pxMargins / 2;
+        mapInicio.setBackground(CreateRouteMap.this.getDrawable(R.drawable.borders));
+        mapInicio.setLayoutParams(constraintsParamsMAP);
+        mapInicio.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                setListView();
+                mapInicio.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
     private void setListView(){
-        vista = findViewById(R.id.listaPlaces);
+        if(!fromFragment){
+            places = getIntent().getExtras().getParcelableArrayList("places");
+            mostrarDatos(places);
+        }
+        int pxMargins = (int) (10 * CreateRouteMap.this.getResources().getDisplayMetrics().density);
         int listInicio = (int) vista.getY();
         int buttonInicio = (int) crearRuta.getY();
-        int pxMargins = (int) (10 * CreateRouteMap.this.getResources().getDisplayMetrics().density);
         int usableSpace = buttonInicio - listInicio - pxMargins;
         ConstraintLayout.LayoutParams constraintsParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, usableSpace);
         constraintsParams.topToBottom = R.id.mapFrame;
@@ -204,15 +276,6 @@ public class CreateRouteMap extends AppCompatActivity implements
         myMap.setOnMarkerClickListener(this);
         myMap.setOnCameraMoveStartedListener(this);
         myMap.setOnCameraIdleListener(this);
-
-        getPosicionActual();
-        setListView();
-        //Si no vengo del fragment (luego vengo de MyRoutes), cargo la lista de lugares a editar
-        if(!fromFragment){
-            places = getIntent().getExtras().getParcelableArrayList("places");
-            mostrarDatos(places);
-            setListView();
-        }
     }
 
     private void getPosicionActual(){
@@ -378,6 +441,7 @@ public class CreateRouteMap extends AppCompatActivity implements
                 if(places.size()<10){
                     places.add(new Lugar(id, posicion, title));
                     mostrarDatos(places);
+                    setListView();
                     Toast.makeText(CreateRouteMap.this, getString(R.string.lugar_agregado), Toast.LENGTH_LONG).show();
                     alertDialog.dismiss();
                 }else{
@@ -413,6 +477,7 @@ public class CreateRouteMap extends AppCompatActivity implements
             public void onClick(View view) {
                 places.remove(posicion);
                 mostrarDatos(places);
+                setListView();
                 Toast.makeText(CreateRouteMap.this, getString(R.string.lugar_eliminado), Toast.LENGTH_LONG).show();
                 alertDialog.dismiss();
             }

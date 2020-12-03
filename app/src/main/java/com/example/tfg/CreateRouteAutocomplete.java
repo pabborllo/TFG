@@ -17,7 +17,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -78,6 +80,7 @@ public class CreateRouteAutocomplete extends AppCompatActivity implements
     private ArrayList<Lugar> places = new ArrayList<>();
     private Button crearRuta;
     private RecyclerView vista;
+    private FrameLayout mapInicio;
 
     //Vista del lugar elegido
     private AlertDialog.Builder alertDialogBuilder;
@@ -102,11 +105,12 @@ public class CreateRouteAutocomplete extends AppCompatActivity implements
         //Botón para lanzar Intent y crear ruta
         crearRuta = findViewById(R.id.createRouteAutocomplete);
         crearRuta.setOnClickListener(this);
+        fromFragment = getIntent().getExtras().getBoolean("flag");
 
         buscador = findViewById(R.id.buscador);
         buscador.setOnClickListener(this);
-
-        fromFragment = getIntent().getExtras().getBoolean("flag");
+        mapInicio = findViewById(R.id.mapFrameAutocomplete);
+        vista = findViewById(R.id.listaPlacesAutocomplete);
 
         //Comprobar permisos y construir mapa
         if (ContextCompat.checkSelfPermission(
@@ -116,13 +120,46 @@ public class CreateRouteAutocomplete extends AppCompatActivity implements
         } else {
             cargaMapa();
         }
+        buscador.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                setMapView();
+                buscador.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+    }
+
+    private void setMapView(){
+        int pxMargins = (int) (10 * CreateRouteAutocomplete.this.getResources().getDisplayMetrics().density);
+        int buscadorInicio = (int) buscador.getY();
+        int buscadorTAM = buscador.getHeight();
+        int crearInicio = (int) crearRuta.getY();
+        int usableScreen = crearInicio - (buscadorInicio + buscadorTAM);
+        int mapScreen = 60*usableScreen/100;
+        ConstraintLayout.LayoutParams constraintsParamsMAP = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mapScreen);
+        constraintsParamsMAP.topToBottom = R.id.buscador;
+        constraintsParamsMAP.leftToLeft = R.id.parent;
+        constraintsParamsMAP.topMargin = pxMargins / 2;
+        mapInicio.setBackground(CreateRouteAutocomplete.this.getDrawable(R.drawable.borders));
+        mapInicio.setLayoutParams(constraintsParamsMAP);
+
+        mapInicio.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                setListView();
+                mapInicio.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
     private void setListView(){
-        vista = findViewById(R.id.listaPlacesAutocomplete);
+        if(!fromFragment){
+            places = getIntent().getExtras().getParcelableArrayList("places");
+            mostrarDatos(places);
+        }
+        int pxMargins = (int) (10 * CreateRouteAutocomplete.this.getResources().getDisplayMetrics().density);
         int listInicio = (int) vista.getY();
         int buttonInicio = (int) crearRuta.getY();
-        int pxMargins = (int) (10 * CreateRouteAutocomplete.this.getResources().getDisplayMetrics().density);
         int usableSpace = buttonInicio - listInicio - pxMargins;
         ConstraintLayout.LayoutParams constraintsParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, usableSpace);
         constraintsParams.topToBottom = R.id.mapFrameAutocomplete;
@@ -176,12 +213,6 @@ public class CreateRouteAutocomplete extends AppCompatActivity implements
 
         getPosicionActual();
         setListView();
-        //Si no vengo del fragment (luego vengo de MyRoutes), cargo la lista de lugares a editar
-        if(!fromFragment){
-            places = getIntent().getExtras().getParcelableArrayList("places");
-            mostrarDatos(places);
-            setListView();
-        }
     }
 
     private void getPosicionActual(){

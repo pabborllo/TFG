@@ -3,17 +3,22 @@ package com.example.tfg;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.example.tfg.db.DatabaseManager;
@@ -42,6 +47,7 @@ public class DisplayRoute extends AppCompatActivity implements OnMapReadyCallbac
     private RecyclerView stepsView;
     private RecyclerView headerView;
     private Button tope;
+    private FrameLayout mapInicio;
 
     private AlertDialog.Builder alertDialogBuilder;
     private AlertDialog alertDialog;
@@ -62,6 +68,7 @@ public class DisplayRoute extends AppCompatActivity implements OnMapReadyCallbac
         stepsView = findViewById(R.id.listaPasos);
         buttonsView = findViewById(R.id.listaButtons);
         headerView = findViewById(R.id.legHeader);
+        mapInicio = findViewById(R.id.mapFrameRoute);
 
         routeUrl = getIntent().getExtras().getString("routeUrl");
         currentPos = getIntent().getExtras().getBoolean("currentPos");
@@ -71,6 +78,27 @@ public class DisplayRoute extends AppCompatActivity implements OnMapReadyCallbac
             placesNames.add(0, getString(R.string.mi_ubicacion));
         }
         cargaMapa();
+        mapInicio.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                setMapView();
+                mapInicio.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+    }
+
+    private void setMapView(){
+        int pxMargins = (int) (10 * DisplayRoute.this.getResources().getDisplayMetrics().density);
+        int topeInicio = (int) tope.getY();
+        int mapInit = (int) mapInicio.getY();
+        int usableScreen = topeInicio - mapInit;
+        int mapScreen = 50*usableScreen/100;
+        ConstraintLayout.LayoutParams constraintsParamsMAP = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mapScreen);
+        constraintsParamsMAP.topToTop = R.id.parent;
+        constraintsParamsMAP.leftToLeft = R.id.parent;
+        constraintsParamsMAP.topMargin = pxMargins / 2;
+        mapInicio.setBackground(DisplayRoute.this.getDrawable(R.drawable.borders));
+        mapInicio.setLayoutParams(constraintsParamsMAP);
     }
 
     private void cargaMapa() {
@@ -116,8 +144,12 @@ public class DisplayRoute extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 if(!nombre.getText().toString().trim().isEmpty()){
-                    alertDialog.dismiss();
-                    subirRuta(nombre.getText().toString());
+                    if(nombre.getText().toString().trim().length()<=15){
+                        alertDialog.dismiss();
+                        subirRuta(nombre.getText().toString().trim());
+                    }else{
+                        Toast.makeText(DisplayRoute.this, getString(R.string.error_nombre_ruta_long), Toast.LENGTH_LONG).show();
+                    }
                 }else{
                     Toast.makeText(DisplayRoute.this, getString(R.string.error_nombre_ruta), Toast.LENGTH_LONG).show();
                 }

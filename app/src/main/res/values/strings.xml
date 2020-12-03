@@ -21,6 +21,7 @@
     <string name="buscar...">Buscar...</string>
     <string name="borrar">Borrar</string>
     <string name="crear_ruta">Crear ruta</string>
+    <string name="cargar_lista">Cargar lista</string>
     <string name="guardar">Guardar</string>
 
     <!--Lugares-->
@@ -113,6 +114,7 @@
     <string name="lugar_agregado">Lugar agregado</string>
     <string name="lugar_eliminado">Lugar eliminado</string>
     <string name="error_nombre_ruta">Debe darle un nombre a su ruta</string>
+    <string name="error_nombre_ruta_long">15 caracteres máximo</string>
     <string name="ruta_guardada">Guardada en favoritos</string>
     <string name="error_guardar_ruta">Error al guardar la ruta</string>
     <string name="sesion_cerrada">Sesión cerrada</string>

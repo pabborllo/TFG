@@ -3,6 +3,7 @@ package com.example.tfg;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
@@ -11,6 +12,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -45,18 +48,44 @@ public class MyRoutes extends AppCompatActivity {
     private AlertDialog alertDialogElijeMapa;
     private AlertDialog alertDialogConfirmaElimina;
 
+    private ImageView myRoutes;
+    private RecyclerView listaRutas;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_routes);
 
-        ImageView myRoutes = findViewById(R.id.myRoutes_bg);
+        myRoutes = findViewById(R.id.myRoutes_bg);
         Glide.with(MyRoutes.this).load(R.drawable.mis_rutas).into(myRoutes);
+        listaRutas = findViewById(R.id.myRoutesList);
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MyRoutes.this);
         id = prefs.getString("userId", "null");
         ref = new DatabaseManager().getRoutesRef().child(id);
+
         getMyRoutes();
+        myRoutes.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+
+                myRoutes.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+    }
+
+    private void setListView(){
+        int density = (int) MyRoutes.this.getResources().getDisplayMetrics().density;
+        int listInicio = (int) listaRutas.getY();
+        int heighUsable = MyRoutes.this.getResources().getDisplayMetrics().heightPixels - listInicio;
+        int listTAM = Math.min(routes.size()*60*density, 60*heighUsable/100);
+        ConstraintLayout.LayoutParams constraints = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, listTAM);
+        constraints.topToBottom = R.id.cabeceraMisRutas;
+        constraints.leftToLeft = R.id.parent;
+        constraints.rightToRight = R.id.parent;
+        constraints.setMargins(15*density, 25*density, 15*density, 25*density);
+        listaRutas.setBackground(MyRoutes.this.getDrawable(R.drawable.borders));
+        listaRutas.setLayoutParams(constraints);
     }
 
     private void getMyRoutes(){
@@ -96,6 +125,7 @@ public class MyRoutes extends AppCompatActivity {
                     routes.add(route);
                 }
                 mostrarRutas(routes);
+                setListView();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -112,7 +142,6 @@ public class MyRoutes extends AppCompatActivity {
                 handleRoute(mRoutes.get(posicion));
             }
         });
-        RecyclerView listaRutas = findViewById(R.id.myRoutesList);
         listaRutas.setLayoutManager(new LinearLayoutManager(MyRoutes.this));
         listaRutas.setAdapter(myRoutesAdapter);
     }
@@ -210,7 +239,11 @@ public class MyRoutes extends AppCompatActivity {
         final View vistaBorraRuta = getLayoutInflater().inflate(R.layout.vista_eliminar_ruta, null);
 
         TextView cabecera = vistaBorraRuta.findViewById(R.id.cabeceraBorrarRuta);
-        cabecera.setText(getString(R.string.alert_seguro)+" "+route.getNombre()+"?");
+        String nombre = route.getNombre();
+        if(nombre.length()>9){
+            nombre = nombre.substring(0, 6) + "...";
+        }
+        cabecera.setText(getString(R.string.alert_seguro)+"\n"+nombre+"?");
         Button aceptar = vistaBorraRuta.findViewById(R.id.eliminarRutaButton);
         Button cancelar = vistaBorraRuta.findViewById(R.id.noEliminarRutaButton);
 

@@ -2,13 +2,16 @@ package com.example.tfg.fragments;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,9 +21,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
+import com.example.tfg.CreateRouteMap;
 import com.example.tfg.Login;
 import com.example.tfg.R;
 import com.example.tfg.db.DatabaseManager;
@@ -34,6 +39,9 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MiPerfilFragment extends Fragment {
 
     private DatabaseManager db = new DatabaseManager();
+    private ImageView foto;
+    private TextView nameContainer;
+    private Button misRutas;
     private String provider;
     private String name;
     private String id;
@@ -60,14 +68,17 @@ public class MiPerfilFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        foto = view.findViewById(R.id.profileImage);
 
-        ImageView photoContainer = view.findViewById(R.id.profileImage);
-        Glide.with(getContext()).load(Uri.parse(photoUrl)).circleCrop().into(photoContainer);
 
-        TextView nameContainer = view.findViewById(R.id.profileName);
+        //Glide.with(getContext()).load(Uri.parse(photoUrl)).circleCrop().into(foto);
+
+        nameContainer = view.findViewById(R.id.profileName);
         nameContainer.setText(name);
 
-        Button misRutas = view.findViewById(R.id.botonMisRutas);
+        misRutas = view.findViewById(R.id.botonMisRutas);
+        ConstraintLayout.LayoutParams constraints = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
         misRutas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -11,6 +11,7 @@
     <string name="buscar...">Search...</string>
     <string name="borrar">Remove</string>
     <string name="crear_ruta">Create route</string>
+    <string name="cargar_lista">Load list</string>
     <string name="guardar">Save</string>
     <string name="mapa">Map</string>
     <string name="buscador">Seeker</string>
@@ -94,6 +95,7 @@
     <string name="lugar_agregado">Place added</string>
     <string name="lugar_eliminado">Place removed</string>
     <string name="error_nombre_ruta">You must set a name</string>
+    <string name="error_nombre_ruta_long">Maximun 15 chars</string>
     <string name="ruta_guardada">Saved in favourites</string>
     <string name="error_guardar_ruta">Error saving route</string>
     <string name="sesion_cerrada">You have been logged out</string>
