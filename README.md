@@ -6,7 +6,7 @@ Facebook APIs consumed:
   - Login
 
 Google APIs consumed:
-  - Firebase (Authentication, Realtime database)
+  - Firebase (Authentication, Realtime Database)
   - Google Maps
   - Google Places
   - Google Directions
